@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.ccuIot.tcpCloud.dao.SensorInformationMapper">
+    <resultMap id="information" type="sensorInformation">
+        <id column="id" property="id"/>
+        <result column="sensor_id" property="sensor_id"/>
+        <result column="message" property="message"/>
+        <result column="time" property="time"/>
+        <association property="sensor" javaType="Sensor">
+            <id column="sensor_id" property="sensor_id"/>
+            <result column="sensor_ip" property="sensor_ip"/>
+            <result column="sensor_name" property="sensor_name"/>
+            <result column="sensor_type" property="sensor_type"/>
+            <result column="sensor_unit" property="sensor_unit"/>
+            <result column="isOnline" property="isOnLine"/>
+        </association>
+    </resultMap>
+    <insert id="addSensorInformation" parameterType="sensorInformation">
+        insert into sensorInformation
+        (sensor_id, message, time)
+        values
+        (#{sensor_id},#{message},#{time})
+    </insert>
+    <delete id="deleteSensorInformationBySensorId" parameterType="Integer">
+        delete from sensorInformation where sensor_id=#{id}
+    </delete>
+
+    <select id="queryAllSensorInformation" resultMap="information">
+        select
+
+           i.id,
+           i.sensor_id,
+           i.message,
+           i.time,
+           s.sensor_id,
+           s.sensor_ip,
+           s.sensor_name,
+           s.sensor_type,
+           s.sensor_unit,
+           s.isOnline
+
+        from sensorInformation i left join sensor s
+         on
+             i.sensor_id=s.sensor_id
+    </select>
+
+    <select id="querySensorInformationByLikeMessage" resultMap="information">
+        select
+
+           i.id,
+           i.sensor_id,
+           i.message,
+           i.time,
+           s.sensor_id,
+           s.sensor_ip,
+           s.sensor_name,
+           s.sensor_type,
+           s.sensor_unit,
+           s.isOnline
+
+        from sensorInformation i left join sensor s
+         on
+             i.sensor_id=s.sensor_id
+        <where>
+          i.message like CONCAT('%',#{keyword},'%')
+        </where>
+    </select>
+    <select id="querySensorInformationByLikeName" resultMap="information">
+        select
+
+        i.id,
+        i.sensor_id,
+        i.message,
+        i.time,
+        s.sensor_id,
+        s.sensor_ip,
+        s.sensor_name,
+        s.sensor_type,
+        s.sensor_unit,
+        s.isOnline
+
+        from sensorInformation i left join sensor s
+        on
+        i.sensor_id=s.sensor_id
+        <where>
+            s.sensor_name like CONCAT('%',#{keyword},'%')
+        </where>
+    </select>
+
+
+</mapper>

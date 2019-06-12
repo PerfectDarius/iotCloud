@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<!--<style>
+			/*#lunbo{
+				border: 1px solid black;
+				width: 1000px;
+				height: 500px;
+				margin-left: auto;
+			}*/
+		</style>-->
+		<script>
+			function init(){
+				setInterval("lunbo()",3000);
+			}
+			var i = 0;
+			function lunbo(){
+				i++;
+				document.getElementById("img0").src="../img/0"+i+".jpg";				
+				if(i==2){
+					i=0;
+				}
+			}
+		</script>
+	</head >
+	<body onload="init()">
+		<div id="lunbo">
+			<img src="img/01.jpg" width="100%" height="452px" style="margin-left: 66px; margin-top: 25px;" id="img0"  />
+		</div>
+	</body>
+</html>
